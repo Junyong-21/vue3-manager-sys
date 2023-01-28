@@ -95,6 +95,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             login(ruleForm).then((res) => {
                 // 将token进行保存
                 localStorage.setItem('token',res.userInfo.token);
+                localStorage.setItem('username', res.userInfo.username);
                 if (ruleForm.username === res.userInfo.username) {
                     if (ruleForm.password === res.userInfo.password) {
                         router.push('/home')
