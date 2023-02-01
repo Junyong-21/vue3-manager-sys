@@ -1,39 +1,45 @@
 <template>
-<div class="w-1/5 absolute top-[70px] left-0 bottom-0 backdrop-filter  backdrop-blur-md backdrop-contrast-100">
+<div class="w-[200px] absolute top-[70px] left-0 bottom-0 backdrop-filter  backdrop-blur-md backdrop-contrast-100">
     <el-menu
         active-text-color="#20a0ff"
         default-active="2"
         class="el-menu-vertical-demo"
         @open="handleOpen"
         @close="handleClose"
-        text-colot="white"
+        text-color="white"
         background-color="backdrop-filter"
+        router
     >
-        <el-sub-menu index="1">
+        <el-menu-item index="/dashboard">
+        <span>系统首页</span>
+        </el-menu-item>
+        <el-sub-menu index="2">
         <template #title>
-            <span>Navigator One</span>
+            <span>表格相关</span>
         </template>
-        <el-menu-item-group title="Group One">
-            <el-menu-item index="1-1">item one</el-menu-item>
-            <el-menu-item index="1-2">item two</el-menu-item>
+        <el-menu-item-group>
+            <el-menu-item index="/table">常用表格</el-menu-item>
+            <el-menu-item index="/importExcel">导入Excel</el-menu-item>
+            <el-menu-item index="/exportExcel">导出Excel</el-menu-item>
         </el-menu-item-group>
-        <el-menu-item-group title="Group Two">
-            <el-menu-item index="1-3">item three</el-menu-item>
+        </el-sub-menu>
+        <el-menu-item index="/tabs">
+        <span>tab选项卡</span>
+        </el-menu-item>
+        <el-sub-menu index="4">
+        <template #title>
+            <span>表单相关</span>
+        </template>
+        <el-menu-item-group>
+            <el-menu-item index="/form">基本表单</el-menu-item>
+            <el-menu-item index="/upload">文件上传</el-menu-item>
+            <el-sub-menu index="4-3">
+                <template #title>三级菜单</template>
+                    <el-menu-item index="/editor">富文本编辑器</el-menu-item>
+                    <el-menu-item index="/markdown">markdown编辑器</el-menu-item>
+                </el-sub-menu>
         </el-menu-item-group>
-        <el-sub-menu index="1-4">
-            <template #title>item four</template>
-            <el-menu-item index="1-4-1">item one</el-menu-item>
         </el-sub-menu>
-        </el-sub-menu>
-        <el-menu-item index="2">
-        <span>Navigator Two</span>
-        </el-menu-item>
-        <el-menu-item index="3" disabled>
-        <span>Navigator Three</span>
-        </el-menu-item>
-        <el-menu-item index="4">
-        <span>Navigator Four</span>
-        </el-menu-item>
     </el-menu>
 </div>
 </template>

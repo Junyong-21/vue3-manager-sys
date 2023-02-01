@@ -36,8 +36,6 @@
 
 <script setup lang='ts'>
 import { ref,reactive } from 'vue'
-import BaseModel from './BaseModel.vue'
-import LoginView from './loginView.vue';
 import { useRouter } from 'vue-router';
 
 const username: String | null = localStorage.getItem('username');
