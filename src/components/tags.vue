@@ -1,6 +1,6 @@
 <template>
-    <div class=" h-[30px] shadow-sm">
-        <ul class="box-border w-full h-full">
+    <div class=" h-[30px] shadow-sm flex">
+        <ul class="box-border h-full w-full">
             <li
                 class="tags-li"
                 v-for="(item, index) in tags.list "
@@ -11,6 +11,17 @@
                 <i class="glyphicon glyphicon-remove ml-2" @click="closeTags(index)"></i>
             </li>
         </ul>
+        <el-dropdown class="absolute right-0 top-0 w-[110px] h-full">
+            <el-button class="h-[20px]">
+                标签选项<i class="glyphicon glyphicon-menu-down ml-3"></i>
+            </el-button>
+            <template #dropdown>
+                <el-dropdown-menu>
+                <el-dropdown-item @click="closeOther">关闭其他</el-dropdown-item>
+                <el-dropdown-item @click="closeAllTags">关闭所有</el-dropdown-item>
+                </el-dropdown-menu>
+            </template>
+        </el-dropdown>
     </div>
 </template>
 
@@ -49,6 +60,7 @@ onBeforeRouteUpdate(to => {
 	setTags(to);
 });
 
+// 关闭单个标签
 const closeTags = (index: number) => {
     const delItem = tags.list[index]
     tags.delTagsItem(index);
@@ -58,6 +70,19 @@ const closeTags = (index: number) => {
     } else {
         router.push('/home')
     }
+}
+
+// 关闭所有标签
+const closeAllTags = () => {
+    tags.$reset();
+    router.push('/home')
+}
+// 关闭其他标签
+const closeOther = () => {
+    const currItem = tags.list.filter(item => {
+        return item.path === route.fullPath;
+    })
+    tags.closeOtherTags(currItem);
 }
 </script>
 <style scoped>
@@ -91,5 +116,9 @@ const closeTags = (index: number) => {
 
     .router-link-active {
         color: white;
+    }
+
+    button {
+        height: 30px;
     }
 </style>
