@@ -1,8 +1,8 @@
 <template>
     <div>
-        <el-row :gutter="20">
+        <el-row :gutter="20" class="mb-[20px]">
             <el-col :span="8">
-                <el-card shadow="hover" class="h-[252px] mb-[20px]">
+                <el-card shadow="hover" class="h-[283px] mb-[20px]">
                     <template #header>
                     <div class="flex justify-center items-center pb-[20px] ">
                         <el-avatar
@@ -88,19 +88,51 @@
                         <template #header>
                         <div class="flex w-full items-center">
                             <div>代办事项</div>
-                            <el-button class="button ml-auto" text>添加</el-button>
+                            <el-button class="button ml-auto" text @click="addItem">添加</el-button>
                         </div>
                         </template>
-                        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+                        <el-table :show-header="false" :data="todoList" class="w-full" max-height="322" ref="table">
+                            <el-table-column width="40">
+                                <template #default="scope">
+                                    <el-checkbox v-model="scope.row.status"></el-checkbox>
+                                </template>
+                            </el-table-column>
+                            <el-table-column>
+                                <template #default="scope">
+                                    <div
+                                        class="todo-item"
+                                        :class="{
+                                            'line-through': scope.row.status
+                                        }"
+                                    >
+                                        {{ scope.row.title }}
+                                    </div>
+                                </template>
+                            </el-table-column>
+                        </el-table>
                     </el-card>
                 </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="12">
+                <el-card shadow="hover">
+                    <div id="GoodsChart" class="w-full h-[300px]"></div>
+                </el-card>
+            </el-col>
+            <el-col :span="12">
+                <el-card shadow="hover">
+                    <div id="salesCharts" class="w-full h-[300px]"></div>
+                </el-card>
             </el-col>
         </el-row>
     </div>
 </template>
 
 <script setup lang='ts'>
-import { ref,reactive } from 'vue'
+import { ref,reactive,onMounted } from 'vue'
+import * as echarts from 'echarts';
+
 const username: String | null = localStorage.getItem('username');
 
 const props = defineProps<{
@@ -108,6 +140,118 @@ const props = defineProps<{
     currentLocaltion?: string,
 }>()
 
+// 代办事件列表
+let todoList = reactive([
+	{
+		title: '今天要修复100个bug',
+		status: false
+	},
+	{
+		title: '今天要修复100个bug',
+		status: false
+	},
+	{
+		title: '今天要写100行代码加几个bug吧',
+		status: false
+	},
+	{
+		title: '今天要修复100个bug',
+		status: false
+	},
+	{
+		title: '今天要修复100个bug',
+		status: true
+	},
+	{
+		title: '今天要写100行代码加几个bug吧',
+		status: true
+	},
+])
+
+// 代办事件添加功能
+const addItem = () => {
+    todoList.push({
+		title: '今天要写几百行代码加几个bug吧',
+		status: false
+	})
+}
+
+onMounted(() => {
+    let GoodsChart = echarts.init(document.getElementById("GoodsChart") as HTMLElement);
+    let GoodsOption = {
+        title: {
+            text: 'Drink',
+            left: 'center'
+        },
+        // 图例样式
+        legend: {
+            bottom: 10,
+        },
+        // 提示框
+        tooltip: {},
+        dataset: {
+            // 提供一份数据。
+            source: [
+                ['product', '2015', '2016', '2017'],
+                ['Matcha Latte', 43.3, 85.8, 93.7],
+                ['Milk Tea', 83.1, 73.4, 55.1],
+                ['Cheese Cocoa', 86.4, 65.2, 82.5],
+                ['Walnut Brownie', 72.4, 53.9, 39.1]
+            ]
+        },
+        // 声明一个 X 轴，类目轴（category）。默认情况下，类目轴对应到 dataset 第一列。
+        xAxis: { 
+            type: 'category',
+            axisLabel:{
+                interval:0,//横轴信息全部显示
+			}
+        },
+        // 声明一个 Y 轴，数值轴。
+        yAxis: {},
+        // 声明多个 bar 系列，默认情况下，每个系列会自动对应到 dataset 的每一列。
+        series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' }]
+    };
+GoodsChart.setOption(GoodsOption);
+    let salesChart = echarts.init(document.getElementById('salesCharts') as HTMLElement);
+    let salesOptions = {
+        title: {
+            text: '最近几个月销售趋势图',
+            left: 'center'
+        },
+         // 图例样式
+        legend: {
+            bottom: 10,
+        },
+        // 提示框
+        tooltip: {},
+        dataset: {
+            // 提供一份数据。
+            source: [
+                ['legend', '家电', '百货', '食品'],
+                ['6月', '7月', '8月', '9月', '10月'],
+                ['6月', 234, 164, 178],
+                ['7月', 278, 178, 118],
+                ['8月', 270, 150, 200],
+                ['9月', 190, 135, 235],
+                ['10月', 230, 160, 90],
+            ]
+        },
+        xAxis: {
+            type: 'category',
+            axisLabel:{
+                interval:0,//横轴信息全部显示
+			}
+        },
+        yAxis: {},
+        // 声明多个 bar 系列，默认情况下，每个系列会自动对应到 dataset 的每一列。
+        series: [{ type: 'line' }, { type: 'line' }, { type: 'line' }]
+    }
+    salesChart.setOption(salesOptions)
+window.onresize = function () { // 自适应大小
+    GoodsChart.resize();
+    salesChart.resize();
+};
+})
 
 </script>
 <style scoped>

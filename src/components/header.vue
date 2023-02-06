@@ -16,7 +16,9 @@
             <el-dropdown class="user-name" trigger="click" @command="handleCommand">
 					<span class="text-white flex items-center ml-4">
 						{{ username }}
-						<i class="glyphicon glyphicon-menu-down ml-3"></i>
+						<el-icon>
+                            
+                        </el-icon>
 					</span>
 					<template #dropdown>
 						<el-dropdown-menu>
@@ -35,7 +37,6 @@
 </template>
 
 <script setup lang='ts'>
-import { ref,reactive } from 'vue'
 import { useRouter } from 'vue-router';
 
 const username: String | null = localStorage.getItem('username');

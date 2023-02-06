@@ -45,7 +45,6 @@
 </template>
 
 <script setup lang='ts'>
-import { ref,reactive } from 'vue'
 const handleOpen = (key: string, keyPath: string[]) => {
     console.log(key, keyPath)
 }

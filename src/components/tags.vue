@@ -8,12 +8,17 @@
                 :class="{ active: isActive(item.path)}"
             >
                 <router-link :to="item.path" class="no-underline">{{ item.title }}</router-link>
-                <i class="glyphicon glyphicon-remove ml-2" @click="closeTags(index)"></i>
+                <el-icon @click="closeTags(index)">
+                    <Close />
+                </el-icon>
             </li>
         </ul>
         <el-dropdown class="absolute right-0 top-0 w-[110px] h-full">
             <el-button class="h-[20px]">
-                标签选项<i class="glyphicon glyphicon-menu-down ml-3"></i>
+                标签选项
+                <el-icon>
+                    <arrow-down />
+                </el-icon>
             </el-button>
             <template #dropdown>
                 <el-dropdown-menu>
@@ -27,7 +32,6 @@
 
 <script setup lang='ts'>
 import { useTagsStore } from '@/stores/tags';
-import { ref,reactive } from 'vue'
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
